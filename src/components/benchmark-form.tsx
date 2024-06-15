@@ -25,18 +25,25 @@ export function BenchmarkForm() {
       if (res.pass) {
         toast({
           title: "Benchmark Passed",
-          description: `Score: ${res.score}`,
+          description: `Score: ${res.score}
+          Success: ${res.success}
+          Fail: ${res.fail}
+          Messages: ${res.messages.join(", ")}`,
         });
       } else {
         toast({
           title: "Benchmark Failed",
+          description: `Score: ${res.score}
+          Success: ${res.success}
+          Fail: ${res.fail}
+          Messages: ${res.messages.join(", ")}`,
           variant: "destructive",
         });
       }
     } catch (e) {
       if (e instanceof Error) {
         toast({
-          title: "Benchmark Failed",
+          title: "Error Occurred",
           description: e.message,
           variant: "destructive",
         });
