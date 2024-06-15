@@ -52,7 +52,7 @@ export function ScoreGraph() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl">Team Ranking</h2>
+      <h2 className="text-2xl">Score Graph</h2>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={chartData}
