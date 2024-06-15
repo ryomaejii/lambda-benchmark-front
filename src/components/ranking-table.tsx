@@ -8,8 +8,11 @@ import {
 } from "@/components/ui/table";
 import { TableHead } from "@/components/ui/table";
 import { TableRow } from "@/components/ui/table";
+import { useGetRanking } from "@/utils/hooks/useGetRanking";
 
 export function RankingTable() {
+  const ranking = useGetRanking();
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl">Team Ranking</h2>
@@ -22,16 +25,13 @@ export function RankingTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>1</TableCell>
-            <TableCell>John Doe</TableCell>
-            <TableCell className="text-right">100</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>2</TableCell>
-            <TableCell>Jane Doe</TableCell>
-            <TableCell className="text-right">90</TableCell>
-          </TableRow>
+          {ranking.map((team) => (
+            <TableRow key={team.name}>
+              <TableCell>{team.rank}</TableCell>
+              <TableCell>{team.name}</TableCell>
+              <TableCell className="text-right">{team.score}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
