@@ -2,14 +2,48 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { runBenchmark } from "@/utils/api/runBenchmark";
 import { useState } from "react";
 
 export function BenchmarkForm() {
+  const { toast } = useToast();
   const team = localStorage.getItem("team");
   const [targetUrlInput, setTargetUrlInput] = useState("");
+  const [running, setRunning] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!team) return;
+
+    setRunning(true);
+    try {
+      const res = await runBenchmark({
+        name: team,
+        url: targetUrlInput,
+      });
+      if (res.pass) {
+        toast({
+          title: "Benchmark Passed",
+          description: `Score: ${res.score}`,
+        });
+      } else {
+        toast({
+          title: "Benchmark Failed",
+          variant: "destructive",
+        });
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        toast({
+          title: "Benchmark Failed",
+          description: e.message,
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setRunning(false);
+    }
   };
 
   return (
@@ -21,9 +55,9 @@ export function BenchmarkForm() {
             value={targetUrlInput}
             onChange={(e) => setTargetUrlInput(e.target.value)}
             placeholder="Benchmark Target URL"
-            disabled={!team}
+            disabled={!team || running}
           />
-          <Button>Run</Button>
+          <Button disabled={running}>{running ? "Running..." : "Run"}</Button>
         </form>
       ) : (
         <div>Team not set</div>
