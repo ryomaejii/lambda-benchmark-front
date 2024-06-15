@@ -33,19 +33,22 @@ const formatDate = (timestamp: number) => {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 };
 
-const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+const stringToColor = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return color;
+
+  const h = ((hash % 360) + 360) % 360; // 0-360の範囲に正規化
+  const s = 70 + (hash % 30); // 彩度は70-100の範囲に設定
+  const l = 50 + (hash % 20); // 明度は50-70の範囲に設定
+
+  return `hsl(${h}, ${s}%, ${l}%)`;
 };
 
 export function ScoreGraph() {
   const data = useGetScores();
   const chartData = processData(data);
-  const colors = data.map(() => getRandomColor());
 
   return (
     <div className="space-y-4">
@@ -75,7 +78,7 @@ export function ScoreGraph() {
               key={index}
               type="monotone"
               dataKey={user.name}
-              stroke={colors[index]}
+              stroke={stringToColor(user.name)}
             />
           ))}
         </LineChart>
