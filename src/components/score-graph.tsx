@@ -16,21 +16,33 @@ import {
 const processData = (data: GetScoresResponse) => {
   const formattedData: any[] = [];
 
+  // すべてのスコアをタイムスタンプと共に集める
+  const allScores: { timestamp: number; [key: string]: number }[] = [];
   data.forEach((user) => {
-    user.scores.forEach((score, index) => {
-      if (!formattedData[index]) {
-        formattedData[index] = { timestamp: formatDate(score.timestamp) };
-      }
-      formattedData[index][user.name] = score.score;
+    user.scores.forEach((score) => {
+      allScores.push({ timestamp: score.timestamp, [user.name]: score.score });
     });
+  });
+
+  allScores.sort((a, b) => a.timestamp - b.timestamp);
+
+  allScores.forEach((item) => {
+    const existingItem = formattedData.find(
+      (data) => data.timestamp === item.timestamp
+    );
+    if (existingItem) {
+      Object.assign(existingItem, item);
+    } else {
+      formattedData.push(item);
+    }
   });
 
   return formattedData;
 };
 
-const formatDate = (timestamp: number) => {
+const formatTime = (timestamp: number) => {
   const date = new Date(timestamp * 1000);
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
 };
 
 const stringToColor = (str: string) => {
@@ -64,7 +76,11 @@ export function ScoreGraph() {
           }}
         >
           <CartesianGrid stroke="#E0E0E0" />
-          <XAxis dataKey="timestamp" stroke="#000000" />
+          <XAxis
+            dataKey="timestamp"
+            stroke="#000000"
+            tickFormatter={(timestamp) => formatTime(timestamp)}
+          />
           <YAxis stroke="#000000" />
           <Tooltip
             contentStyle={{

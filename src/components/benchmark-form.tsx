@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { runBenchmark } from "@/utils/api/runBenchmark";
+import Link from "next/link";
 import { useState } from "react";
 
 export function BenchmarkForm() {
@@ -17,6 +18,7 @@ export function BenchmarkForm() {
     if (!team) return;
 
     setRunning(true);
+
     try {
       const res = await runBenchmark({
         name: team,
@@ -27,17 +29,49 @@ export function BenchmarkForm() {
           title: "Benchmark Passed",
           description: `Score: ${res.score}
           Success: ${res.success}
-          Fail: ${res.fail}
-          Messages: ${res.messages.join(", ")}`,
+          Fail: ${res.fail}`,
+          action: (
+            <Button asChild>
+              <Link
+                href={{
+                  pathname: "/benchmark-detail",
+                  query: {
+                    score: res.score,
+                    success: res.success,
+                    fail: res.fail,
+                    messages: res.messages,
+                  },
+                }}
+              >
+                Show Detail
+              </Link>
+            </Button>
+          ),
         });
       } else {
         toast({
           title: "Benchmark Failed",
           description: `Score: ${res.score}
           Success: ${res.success}
-          Fail: ${res.fail}
-          Messages: ${res.messages.join(", ")}`,
+          Fail: ${res.fail}`,
           variant: "destructive",
+          action: (
+            <Button asChild>
+              <Link
+                href={{
+                  pathname: "/benchmark-detail",
+                  query: {
+                    score: res.score,
+                    success: res.success,
+                    fail: res.fail,
+                    messages: res.messages,
+                  },
+                }}
+              >
+                Show Detail
+              </Link>
+            </Button>
+          ),
         });
       }
     } catch (e) {
