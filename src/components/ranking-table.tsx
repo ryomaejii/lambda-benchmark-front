@@ -13,6 +13,10 @@ import { useGetRanking } from "@/utils/hooks/useGetRanking";
 export function RankingTable() {
   const ranking = useGetRanking();
 
+  if (!ranking) {
+    return <div>Now loading...</div>;
+  }
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl">Ranking</h2>

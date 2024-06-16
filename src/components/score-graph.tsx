@@ -60,6 +60,11 @@ const stringToColor = (str: string) => {
 
 export function ScoreGraph() {
   const data = useGetScores();
+
+  if (!data) {
+    return <div>Now loading...</div>;
+  }
+
   const chartData = processData(data);
 
   return (

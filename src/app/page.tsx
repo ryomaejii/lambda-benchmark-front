@@ -9,12 +9,8 @@ export default function Home() {
     <div className="space-y-16">
       <TeamForm />
       <BenchmarkForm />
-      <Suspense fallback={<div>Now loading...</div>}>
-        <ScoreGraph />
-      </Suspense>
-      <Suspense fallback={<div>Now loading...</div>}>
-        <RankingTable />
-      </Suspense>
+      <ScoreGraph />
+      <RankingTable />
     </div>
   );
 }

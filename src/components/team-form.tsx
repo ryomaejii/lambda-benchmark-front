@@ -2,12 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function TeamForm() {
-  const team = localStorage.getItem("team") ?? "";
+  let team = "";
   const [alreadyTeamSet, setAlreadyTeamSet] = useState(team !== "");
   const [teamInput, setTeamInput] = useState(team);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    team = localStorage.getItem("team") ?? "";
+    setAlreadyTeamSet(team !== "");
+    setTeamInput(team);
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamInput(e.target.value);
@@ -18,7 +25,7 @@ export function TeamForm() {
     if (alreadyTeamSet) {
       setAlreadyTeamSet(false);
     } else {
-      localStorage.setItem("team", teamInput);
+      localStorage?.setItem("team", teamInput);
       setAlreadyTeamSet(true);
     }
   };
