@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { runBenchmark } from "@/utils/api/runBenchmark";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function BenchmarkForm() {
   const { toast } = useToast();
@@ -13,10 +13,9 @@ export function BenchmarkForm() {
   const [targetUrlInput, setTargetUrlInput] = useState("");
   const [running, setRunning] = useState(false);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    team = localStorage.getItem("team") ?? "";
-  }, []);
+  if (typeof window !== "undefined") {
+    team = localStorage?.getItem("team") ?? "";
+  }
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

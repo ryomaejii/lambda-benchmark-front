@@ -21,8 +21,8 @@ export function TeamForm() {
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     if (alreadyTeamSet) {
+      e.preventDefault();
       setAlreadyTeamSet(false);
     } else {
       localStorage?.setItem("team", teamInput);
