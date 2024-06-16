@@ -18,10 +18,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={inter.className}>
-        <header className="sticky top-0 flex justify-center items-center px-4 h-header border border-b w-full">
-          <h1 className="font-bold text-2xl">ISUCON 練習会 ベンチマーク</h1>
+        <header className="sticky top-0 flex justify-center items-center px-4 h-header border border-b w-full bg-white">
+          <h1 className="font-bold text-2xl">Private Isu Benchmark</h1>
         </header>
-        <div className="w-full max-w-screen-lg px-4 py-8 mx-auto">
+        <div className="w-full max-w-screen-lg px-4 pt-8 pb-40 mx-auto">
           {children}
         </div>
         <Toaster />
