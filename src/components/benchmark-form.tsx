@@ -38,7 +38,7 @@ export function BenchmarkForm() {
             <Button asChild>
               <Link
                 href={{
-                  pathname: "/benchmark-detail",
+                  pathname: "/benchmark-result",
                   query: {
                     score: res.score,
                     success: res.success,
@@ -63,7 +63,7 @@ export function BenchmarkForm() {
             <Button asChild>
               <Link
                 href={{
-                  pathname: "/benchmark-detail",
+                  pathname: "/benchmark-result",
                   query: {
                     score: res.score,
                     success: res.success,
