@@ -100,6 +100,7 @@ export function ScoreGraph() {
               type="monotone"
               dataKey={user.name}
               stroke={stringToColor(user.name)}
+              connectNulls
             />
           ))}
         </LineChart>
