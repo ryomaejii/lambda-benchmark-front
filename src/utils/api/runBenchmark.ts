@@ -13,7 +13,7 @@ type RunBenchmarkResponse = {
 
 export async function runBenchmark(data: RunBenchmarkRequest) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BENCHMARK_API_URL}/bench`,
+    `${process.env.NEXT_PUBLIC_BENCHMARK_API_URL}/scores`,
     {
       method: "POST",
       headers: {
